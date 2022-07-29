@@ -2,7 +2,7 @@ import java.util.Scanner;
 import java.lang.NumberFormatException;
 
 class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) {//
 
         Scanner scanner = new Scanner(System.in);
         int[] marcetProduct = new int[5];
