@@ -29,14 +29,25 @@ class Main {
                 } else if (!(inputProduct.length == 2)) {
                     System.out.println("Введите два числа через пробел!");
                 }
-                if (productNumber + 1 > products.length || ((productNumber + 1) < 0) || ((productCount) < 0)) { //проверка условия корректности ввода двух чисел больше 0 и не больше длины массива
+                if (productNumber + 1 > products.length || ((productNumber + 1) < 0)) { //проверка условия корректности ввода двух чисел больше 0 и не больше длины массива
                     System.out.println("Выберите продукт от 1 до " + products.length);
-                } else {
-                    int currentPrice = prices[productNumber];
-                    String currentProduct = products[productNumber];
-                    sumProducts += currentPrice * productCount;
-                    marcetProduct[productNumber] += productCount; // создаю массив корзины и добавляю в ячеку количество товара
                 }
+
+                if (productCount == 0) {
+                    sumProducts -= marcetProduct[productNumber] * prices[productNumber];
+                    marcetProduct[productNumber] = 0;
+                } else if ((marcetProduct[productNumber] + productCount) >= 0) {
+                    marcetProduct[productNumber] += productCount; // заполняем массив с кол-вом купленных продуктов
+                } else {
+                    System.out.println("Ошибка операции!");
+                    System.out.println("Количество товаров в корзине - " + marcetProduct[productNumber] +
+                            ", а Вы пытаетесь убрать из нее - " + (productCount * -1));
+                    continue;
+                }
+
+                int currentPrice = prices[productNumber];
+                sumProducts += currentPrice * productCount;
+
             } catch (NumberFormatException e) {
                 System.out.println("ОШИБКА! Вы ввели текст вместо числа");
                 continue;
