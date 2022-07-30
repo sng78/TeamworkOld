@@ -7,7 +7,9 @@ class Main {
         Scanner scanner = new Scanner(System.in);
         int[] marcetProduct = new int[5];
         String[] products = {"Хлеб", "Яблоки", "Молоко", "Яйца", "Колбаса"};
+        String[] productsAction = {"Молоко", "Яйца", "Колбаса"};//товары по акции
         int[] prices = {100, 200, 300, 150, 400};
+        int[] pricesAction = {300, 150, 400};// ценник по акции
         System.out.println("Список возможных товаров для покупки");
         for (int i = 0; i < products.length; i++) {
             System.out.println((i + 1) + ". " + products[i] + " " + prices[i] + " руб/шт");
@@ -19,6 +21,7 @@ class Main {
             System.out.println("Выберите товар и количество или введите `end`");
             try {
                 String inputString = scanner.nextLine(); // Считываем номер операции
+
                 if (inputString.equals("end")) {
                     break;
                 }
@@ -26,7 +29,7 @@ class Main {
                 if (inputProduct.length == 2) {//проверка условия ввода двух чисел через пробел
                     productNumber = Integer.parseInt(inputProduct[0]) - 1;
                     productCount = Integer.parseInt(inputProduct[1]);
-                } else if (!(inputProduct.length == 2)) {
+                } else if ((inputProduct.length != 2)) {
                     System.out.println("Введите два числа через пробел!");
                 }
                 if (productNumber + 1 > products.length || ((productNumber + 1) < 0) || ((productCount) < 0)) { //проверка условия корректности ввода двух чисел больше 0 и не больше длины массива
@@ -43,9 +46,16 @@ class Main {
             }
         }
         System.out.println("Ваша корзина:");
+        int sumProduct = 0;
         for (int i = 0; i < products.length; i++) {
+            for (String action : productsAction) {//проверяю корзину на акционные товары
+                if (marcetProduct[i] > 0 && marcetProduct[i] != 3) {
+                    sumProduct = marcetProduct[i] * prices[i];
+                } else if (products[i] == action && marcetProduct[i] == 3) {
+                    sumProduct = 2 * prices[i];
+                }
+            }
             if (marcetProduct[i] > 0) {
-                int sumProduct = marcetProduct[i] * prices[i];
                 System.out.println(products[i] + " " + marcetProduct[i] + " шт " + prices[i] + " руб/шт " + sumProduct + " руб в сумме");
             }
         }
